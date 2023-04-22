@@ -1,4 +1,5 @@
-export default function getText() {
+export default function getText(setReport) {
     const text = document.body.innerText;
-    document.body.innerHTML = text;
+    setReport(text);
+    // document.body.innerHTML = text;
 }
