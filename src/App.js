@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import getText from './summarization';
+import shorten from './summarization';
+
 
 function App() {
   const [report, setReport] = useState('');
@@ -12,18 +13,29 @@ function App() {
       chrome.scripting.executeScript(
         {
           target: { tabId: activeTabId },
-          function: () => { return document.body.innerText; }
+          function: () => {
+            // return document.body.innerText; 
+            const headingsAndParagraphs = document.querySelectorAll('p');
+            let text = '';
+            for (let i = 0; i < headingsAndParagraphs.length; i++) {
+              text += headingsAndParagraphs[i].textContent + ' ';
+            }
+            return text;
+          }
         },
-        (results) => { setReport(results[0].result); }
+        (results) => {
+          const summary = shorten(results[0].result, 10);
+          setReport(summary);
+        }
       );
     });
   }
 
   return (
-    <div className="App">
-      <h1>Snappage</h1>
-      <button onClick={execute}>Summarize</button>
-      <p>{report}</p>
+    <div className="container">
+      <h1 className="title">Snappage</h1>
+      <button className="button" onClick={execute}>Summarize</button>
+      <p className="report">{report}</p>
     </div>
   );
 }
