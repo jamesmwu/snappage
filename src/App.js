@@ -56,9 +56,9 @@ function summarizeText(text) {
 
   if (document.length >= 5) {
     // var summary = "- " + sents[0] + "\n- " + document[1].sentence + "\n- " + document[2].sentence + "\n- " + document[3].sentence + "\n- " + document[4].sentence;
-    summary += `- ${sents[0]}\n`;
+    summary += `${sents[0]}`;
     for (var i = 0; i < 5; i++) {
-      summary += `- ${document[i].sentence}\n`;
+      summary += `${document[i].sentence}`;
     }
   } else {
     alert("Please enter at least 5 sentences");
@@ -70,9 +70,6 @@ function summarizeText(text) {
 
 function App() {
   const [report, setReport] = useState('');
-  useEffect(() => {
-    console.log(report);
-  }, [report]);
 
   function execute() {
     /* eslint-disable no-undef */
