@@ -19,7 +19,7 @@ function App() {
           }
         },
         (results) => {
-          const summary = shorten(results[0].result, 10);
+          const summary = shorten(results[0].result);
           setReport(summary);
         }
       );

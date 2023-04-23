@@ -3,47 +3,10 @@
     text_to_summarize: String of text to summarize
     number_of_sentences: Number of sentences evaluated
 */
-export default function shorten(text_to_summarize, number_of_sentences) {
-    // let summary = textRank(text_to_summarize, number_of_sentences);
+export default function shorten(text_to_summarize) {
     let summary = summarizeText(text_to_summarize);
 
     return summary;
-}
-
-function textRank(text, maxSentences) {
-    // Split the text into sentences
-    const sentences = text.match(/[^\.!\?]+[\.!\?]+/g);
-
-    // Calculate the PageRank for each sentence
-    const sentenceScores = {};
-    const wordFrequencies = {};
-
-    for (const sentence of sentences) {
-        // Count the frequency of each word in the sentence
-        const words = sentence.toLowerCase().split(/\W+/);
-        for (const word of words) {
-            if (word.length > 2) {
-                wordFrequencies[word] = (wordFrequencies[word] || 0) + 1;
-            }
-        }
-
-        // Calculate the PageRank for the sentence
-        let score = 0;
-        for (const word of words) {
-            if (word.length > 2) {
-                score += wordFrequencies[word];
-            }
-        }
-        sentenceScores[sentence] = score;
-    }
-
-    // Sort the sentences by PageRank
-    const sortedSentences = Object.keys(sentenceScores)
-        .sort((a, b) => sentenceScores[b] - sentenceScores[a])
-        .slice(0, maxSentences);
-
-    // Return the summary
-    return sortedSentences.join(' ');
 }
 
 function summarizeText(text) {
@@ -87,7 +50,7 @@ function summarizeText(text) {
     });
 
     if (document.length >= 5) {
-        var summary = sents[0] + " - " + document[1].sentence + " - " + document[2].sentence + " - " + document[3].sentence + " - " + document[4].sentence;
+        var summary = "- " + sents[0] + "\n- " + document[1].sentence + "\n- " + document[2].sentence + "\n- " + document[3].sentence + "\n- " + document[4].sentence;
         return summary;
     } else {
         alert("Please enter at least 5 sentences");
