@@ -14,13 +14,8 @@ function App() {
         {
           target: { tabId: activeTabId },
           function: () => {
-            // return document.body.innerText; 
-            const headingsAndParagraphs = document.querySelectorAll('p');
-            let text = '';
-            for (let i = 0; i < headingsAndParagraphs.length; i++) {
-              text += headingsAndParagraphs[i].textContent + ' ';
-            }
-            return text;
+            const selection = window.getSelection().toString();
+            return selection;
           }
         },
         (results) => {
