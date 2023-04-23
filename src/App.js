@@ -4,79 +4,30 @@ import shorten from './summarization';
 import * as DOMPurify from "dompurify";
 import html2md from "html-to-md";
 
-let contentSelector;
 function getContainer() {
-  let selectedContainer;
+  // let containers = document.getElementsByTagName('article');
+  // console.log(containers);
+  // let maxTextLength = -1;
+  // let maxTextContainer = null;
 
-  if (contentSelector && document.querySelector(contentSelector)) {
-    selectedContainer = document.querySelector(contentSelector);
-  } else if (document.head.querySelector("meta[name='articleBody'")) {
-    selectedContainer = document.createElement("div");
-    selectedContainer.innerHTML = DOMPurify.sanitize(
-      document.head
-        .querySelector("meta[name='articleBody'")
-        .getAttribute("content")
-    );
-  } else {
-    const numWordsOnPage = document.body.innerText.match(/\S+/g).length;
-    let ps = document.body.querySelectorAll("p");
+  // for (let i = 0; i < containers.length; i++) {
+  //   let textLength = containers[i].innerText.length;
+  //   if (textLength > maxTextLength) {
+  //     maxTextLength = textLength;
+  //     maxTextContainer = containers[i];
+  //   }
+  // }
 
-    // Find the paragraphs with the most words in it
-    let pWithMostWords = document.body,
-      highestWordCount = 0;
-
-    if (ps.length === 0) {
-      ps = document.body.querySelectorAll("div");
-    }
-
-    ps.forEach((p) => {
-      if (
-        p.offsetHeight !== 0
-      ) {
-        //  Make sure it's visible on the regular page
-        const myInnerText = p.innerText.match(/\S+/g);
-        if (myInnerText) {
-          const wordCount = myInnerText.length;
-          if (wordCount > highestWordCount) {
-            highestWordCount = wordCount;
-            pWithMostWords = p;
-          }
-        }
-      }
-
-      // Remove elements in JR that were hidden on the original page
-      if (p.offsetHeight === 0) {
-        p.dataset.simpleDelete = true;
-      }
-    });
-
-    // Keep selecting more generally until over 2/5th of the words on the page have been selected
-    selectedContainer = pWithMostWords;
-    let wordCountSelected = highestWordCount;
-
-    while (
-      wordCountSelected / numWordsOnPage < 0.4 &&
-      selectedContainer != document.body &&
-      selectedContainer.parentElement.innerText
-    ) {
-      selectedContainer = selectedContainer.parentElement;
-      wordCountSelected = selectedContainer.innerText.match(/\S+/g).length;
-    }
-
-    // Make sure a single p tag is not selected
-    if (selectedContainer.tagName === "P") {
-      selectedContainer = selectedContainer.parentElement;
-    }
-  }
-
-  return selectedContainer;
+  // return maxTextContainer;
+  return document.body;
 }
+
 
 function getContentOfArticle() {
   // let pageSelectedContainer = getContainer();
   let pageSelectedContainer = document.body;
   let content = pageSelectedContainer.textContent.trim();
-  console.log(content);
+  // console.log(content);
   return content;
 }
 
@@ -118,7 +69,6 @@ function App() {
             // }
             // return text;
             let content = getContentOfArticle();
-            console.log(content);
             return content;
           }
         },
