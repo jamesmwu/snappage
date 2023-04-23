@@ -3,7 +3,7 @@
     text_to_summarize: String of text to summarize
     number_of_sentences: Number of sentences evaluated
 */
-export default function shorten(text_to_summarize) {
+function shorten(text_to_summarize) {
     let summary = summarizeText(text_to_summarize);
 
     return summary;
@@ -48,12 +48,18 @@ function summarizeText(text) {
     document.sort(function (a, b) {
         return b.frequency - a.frequency;
     });
+    var summary = "";
 
     if (document.length >= 5) {
-        var summary = "- " + sents[0] + "\n- " + document[1].sentence + "\n- " + document[2].sentence + "\n- " + document[3].sentence + "\n- " + document[4].sentence;
-        return summary;
+        // var summary = "- " + sents[0] + "\n- " + document[1].sentence + "\n- " + document[2].sentence + "\n- " + document[3].sentence + "\n- " + document[4].sentence;
+        summary += `- ${sents[0]}\n`;
+        for (var i = 0; i < 5; i++) {
+            summary += `- ${document[i].sentence}\n`;
+        }
+        console.log(summary);
     } else {
         alert("Please enter at least 5 sentences");
-        return "";
     }
+
+    return summary;
 }
